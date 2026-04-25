@@ -18,3 +18,4 @@ juice - health drink
 guava - fruit
 mango  - embe
 Yonse bhoo - drink
+ - carbonated

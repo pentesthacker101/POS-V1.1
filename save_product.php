@@ -4,7 +4,7 @@ session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $product = $_POST["product"];
+    $product_name = $_POST["product_name"];
     $description = $_POST["description"];
     $quantity = $_POST["quantity"];
 
@@ -18,11 +18,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Save to file
-    $file = fopen("products_data.txt", "a");
-    if ($file) {
-        fwrite($file, "$product - $description\n");
-        fclose($file);
-    }
+    // $file = fopen("products_data.txt", "a");
+    // if ($file) {
+    //     fwrite($file, "$product - $description\n");
+    //     fclose($file);
+    // }
 
     header("Location: inventory.php");
     exit;
