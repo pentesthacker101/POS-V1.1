@@ -62,7 +62,7 @@ session_start();
                 <form method="POST" action="sales.php">
                     Item : <select name="item" required>
                                 <?php
-                                    $productQuery = "SELECT product_name, quantity FROM products";
+                                    $productQuery = "SELECT product_name, quantity FROM products WHERE is_active=1";
                                     $result = mysqli_query($conn, $productQuery);
 
                                     if ($result && mysqli_num_rows($result) > 0) {
