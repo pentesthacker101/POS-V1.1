@@ -60,8 +60,9 @@ if ($result && $result->num_rows > 0) {
 
                 <input type="hidden" name="delete_id" value="<?php echo $row["product_id"]; ?>">
 
-                <button type="submit">Delete</button>
+                <button type="submit">Delete</button><br>
             </form>
+           
         </div>
         
 <?php
