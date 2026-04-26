@@ -5,19 +5,28 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>NILA POS v1.0</title>
+        <title>POS_V1.1</title>
 
         <link rel="stylesheet" href="css/styles.css">
     </head>
 
     <body>
-        <p class="app_title">KABOTOLO TUCK SHOP</p1>
+
+    <div class="mainBody">
         
         <div class="menu">
-            <a href="index.php" class="menu_items">Home</a> &nbsp;&nbsp; 
-            <a href="sales.php" class="menu_items">Sales</a> &nbsp;&nbsp; 
-            <a href="inventory.php" class="menu_items">Inventory</a> &nbsp;&nbsp; 
+            <div>
+                <p class="app_title">KABOTOLO POS SYSTEM</p>
+            </div>
+
+            <div class="two">               
+            <a href="index.php" class="menu_items">Home</a> &nbsp;
+            <a href="sales.php" class="menu_items">Sales</a> &nbsp;
+            <a href="inventory.php" class="menu_items">Inventory</a> &nbsp;
             <a href="reports.php" class="menu_items">Reports</a>
+            </div>
+                
+
         </div>
         
         <br>
@@ -27,11 +36,11 @@
                 <hr color="white">
                 <p><?php include("settings/system_details.php");?></p>
             </div>
-
-            <div>
-                <img src="images/pos2.jpeg" class="app-image">
-            </div>
         </div>
         
-    </body>    
+
+
+    </div>
+      
+    </body>
 </html>

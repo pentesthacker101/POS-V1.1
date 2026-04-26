@@ -19,12 +19,9 @@ require("db.php");
             border-bottom: 1px solid #ccc;
         }
         .receipt span { min-width: 100px; }
-        fieldset{
-            background-color: lightgrey;
-        }
     </style>
 </head>
-<body>
+<body class="reportBody">
 
 <?php include("header.php"); ?>
 
@@ -43,44 +40,53 @@ if (!$result) {
 
 $current_date = "";
 
+$orders = [];
+
 while ($row = mysqli_fetch_assoc($result)) {
 
-    // Format date (optional: remove time if exists)
-    $row_date = date("d/m/Y", strtotime($row['date']));
+    $date = date("d/m/Y", strtotime($row['date']));
+    $orderId = $row['order_id'];
 
-    // Start new date group
-    if ($current_date != $row_date) {
-
-        // Close previous group
-        if ($current_date != "") {
-            echo "</fieldset></div>";
-        }
-
-        $current_date = $row_date;
-
-        echo '<div class="receipts">
-                <fieldset>
-                    <legend><span id="date">'.$current_date.'</span></legend>';
-    }
+    // Group by date → order_id
+    $orders[$date][$orderId][] = $row;
+}
 ?>
 
-    <div class="receipt">
-        <span class="order">Orderid: <?php echo $row['order_id']; ?></span>
-        <span class="item-name"><?php echo htmlspecialchars($row['item_name']); ?></span>
-        <span class="Description">-</span>
-        <span class="price">MWK<?php echo number_format($row['price']); ?></span>
-        <span class="Quantity"><?php echo $row['quantity']; ?></span>
-        <span class="Discount"><?php echo $row['discount']; ?>%</span>
+    <?php foreach ($orders as $date => $orderGroup): ?>
+
+    <div class="receipts">
+        <fieldset class="fieldset">
+            <legend><?php echo $date; ?></legend>
+
+            <?php foreach ($orderGroup as $orderId => $items): ?>
+
+                <div class="sale-card" style="display:flex; gap:10px; margin-bottom:10px; border:1px solid #ccc; padding:10px;">
+
+                    <strong>Order ID: <?php echo $orderId; ?></strong>
+
+                    <div style="display:flex; gap:15px; flex-wrap:wrap;">
+
+                        <?php foreach ($items as $item): ?>
+                            <div class="receipt" style="display:flex; gap:10px;">
+                                <span><?php echo htmlspecialchars($item['item_name']); ?></span>
+                                <span>MWK <?php echo number_format($item['price']); ?></span>
+                                <span>Qty: <?php echo $item['quantity']; ?></span>
+                                <span><?php echo $item['discount']; ?>%</span>
+                            </div>
+                        <?php endforeach; ?>
+
+                    </div>
+
+                </div>
+
+            <?php endforeach; ?>
+
+        </fieldset>
     </div>
 
-<?php
-}
+<?php endforeach; ?>
 
-// Close last group
-if ($current_date != "") {
-    echo "</fieldset></div>";
-}
-
+<?php 
 // If no records
 if (mysqli_num_rows($result) == 0) {
     echo "<p>No sales records found.</p>";
@@ -88,6 +94,5 @@ if (mysqli_num_rows($result) == 0) {
 ?>
 
 </div>
-
 </body>
 </html>

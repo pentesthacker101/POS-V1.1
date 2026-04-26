@@ -7,14 +7,18 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <p class="app_title">KABOTOLO TUCK SHOP</p1>
-        
-        <div class="menu">
-            <a href="index.php" class="menu_items">Home</a> &nbsp;&nbsp; 
-            <a href="sales.php" class="menu_items">Sales</a> &nbsp;&nbsp; 
-            <a href="inventory.php" class="menu_items">Inventory</a> &nbsp;&nbsp; 
-            <a href="reports.php" class="menu_items">Reports</a>
-        </div>
 
+            <div class="menu">
+                    <div>
+                        <p class="app_title">KABOTOLO POS SYSTEM</p>
+                    </div>
+
+                    <div class="two">               
+                        <a href="index.php" class="menu_items">Home</a> &nbsp;
+                        <a href="sales.php" class="menu_items">Sales</a> &nbsp;
+                        <a href="inventory.php" class="menu_items">Inventory</a> &nbsp;
+                        <a href="reports.php" class="menu_items">Reports</a>
+                    </div>
+            </div>
 </body>
 </html>

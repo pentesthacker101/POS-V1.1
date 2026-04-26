@@ -117,14 +117,14 @@ if (isset($_POST['complete'])) {
 <!DOCTYPE html>
 <html>
     <head>
-        <title>NILA POS v1.0</title>
+        <title>Sales</title>
 
         <link rel="stylesheet" href="css/styles.css">
     </head>
 
     
 
-    <body>
+    <body class="mainBody">
        <?php include("header.php"); ?>
         <p class="feedback-success">
             <?php include("feedback/feedback_success.php");?>
