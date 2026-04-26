@@ -1,4 +1,6 @@
-<?php require("db.php");
+<?php
+session_start();
+require("db.php");
 
 //edit
 $editMode = false;
@@ -10,6 +12,24 @@ if (isset($_GET['edit_id'])) {
     $sql="SELECT * FROM products WHERE product_id=$id";
     $resultEdit = $conn->query($sql);
     $editData = $resultEdit->fetch_assoc();
+}
+
+if (isset($_POST['save'])) {
+
+    $name = $_POST['product_name'];
+    $desc = $_POST['description'];
+    $qty = $_POST['quantity'];
+
+    $sql = "INSERT INTO products (product_name, description, quantity)
+            VALUES ('$name', '$desc', '$qty')";
+
+    if ($conn->query($sql)) {
+        header("Location: inventory.php?msg=added");
+        exit;
+    } else {
+        header("Location: inventory.php?msg=error");
+        exit;
+    }
 }
 
 if (isset($_POST['update'])) {
@@ -39,14 +59,12 @@ if (isset($_POST['update'])) {
 <!DOCTYPE html>
 <html>
     <head>
-        <title>NILA POS v1.0</title>
+        <title>Inventory</title>
 
         <link rel="stylesheet" href="css/styles.css">
     </head>
 
-    <?php session_start(); ?>
-
-    <body>
+    <body class="mainBody">
     <?php include("header.php"); ?>
         <p class="feedback-success">
             <?php include("feedback/feedback_success.php");?>
@@ -84,7 +102,7 @@ if (isset($_POST['update'])) {
 
                         <?php if ($editMode): ?>
                             <button type="submit" name="update">Update</button>
-                            <a href="inventory.php"><button type="button">Cancel</button></a>
+                                <a href="inventory.php"><button type="button">Cancel</button></a>
                         <?php else: ?>
                             <button type="submit" name="save">Save</button>
                         <?php endif; ?>
