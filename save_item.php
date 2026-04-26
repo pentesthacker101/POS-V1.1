@@ -29,7 +29,7 @@ if($sales_data_file_handle){
         }
     }else{
         $_SESSION["save_sales_feedback_error"] = "Failed to save item details. ";
-    }    
+    }
 }
 
 // close the 2 files

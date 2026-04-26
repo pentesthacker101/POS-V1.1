@@ -177,7 +177,7 @@ a:active {
 .fieldset {
     border-radius: 8px;
     border: solid whitesmoke 3px;
-    background: linear-gradient(135deg, rgba(195, 215, 235, 0.1), rgba(255, 255, 225, 0));
+    background: linear-gradient(135deg, rgba(195, 215, 235, 0.205), rgba(255, 255, 225, 0));
     -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     box-shadow: 0 8px 32px 0 rgba(0,0,0,0.37 );
