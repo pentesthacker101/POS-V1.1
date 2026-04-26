@@ -21,10 +21,21 @@ if (!isset($_SESSION['cart'])) {
 
  if (isset($_POST['save'])) {
 
-    $product_id = $_POST["item"];
+   $product_id = $_POST["item"];
     $quantity = $_POST["quantity"];
     $price = $_POST["price"];
     $discount = $_POST["discount"];
+
+    // check available stock
+    $check = mysqli_query($conn, "SELECT quantity FROM products WHERE product_id=$product_id");
+    $data = mysqli_fetch_assoc($check);
+        $available_qty = $data['quantity'];
+
+    if ($quantity > $available_qty) {
+        $_SESSION["save_sales_feedback_error"] = "Not enough stock available.";
+        header("Location: sales.php");
+        exit();
+    }
 
     if ($discount) {
         $price = $price - $price * ($discount / 100);
@@ -72,6 +83,21 @@ if (isset($_POST['complete'])) {
             VALUES 
             ('$order_id', '$product_id', '$item', '$quantity', '$price', '$discount', '$total', CURRENT_DATE())";
             mysqli_query($conn, $sql);
+            $sql1 = "
+                UPDATE products 
+                SET quantity = quantity - $quantity 
+                WHERE product_id = $product_id 
+                AND quantity >= $quantity
+            ";
+
+            mysqli_query($conn, $sql1);
+
+            // not enough stock message
+            if (mysqli_affected_rows($conn) == 0) {
+                $_SESSION["save_sales_feedback_error"] = "Not enough stock for $item";
+                header("Location: sales.php");
+                exit();
+            }
         }
 
         $_SESSION['cart'] = [];
