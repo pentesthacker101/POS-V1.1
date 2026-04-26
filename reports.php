@@ -31,7 +31,7 @@ require("db.php");
 <div class="reports">
 
 <?php
-$sql = "SELECT item_id, item_name, quantity, price, discount, total, date 
+$sql = "SELECT order_id, item_name, quantity, price, discount, total, date 
         FROM sales 
         ORDER BY date DESC";
 
@@ -65,6 +65,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 ?>
 
     <div class="receipt">
+        <span class="order">Orderid: <?php echo $row['order_id']; ?></span>
         <span class="item-name"><?php echo htmlspecialchars($row['item_name']); ?></span>
         <span class="Description">-</span>
         <span class="price">MWK<?php echo number_format($row['price']); ?></span>

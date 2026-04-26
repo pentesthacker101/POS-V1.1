@@ -3,34 +3,85 @@
 <?php  
  require("db.php");
 session_start();
+
+//clear session cart(on complete order)
+if (isset($_POST['clear_cart'])) {
+    $_SESSION['cart'] = [];
+    $_SESSION["save_sales_feedback_success"] = "Cart cleared.";
+    header("Location: sales.php");
+    exit();
+}
+
+//to keep track of the cart
+if (!isset($_SESSION['cart'])) {
+    $_SESSION['cart'] = [];
+}
+
  if($_SERVER["REQUEST_METHOD"]=="POST"){
 
  if (isset($_POST['save'])) {
 
-    $item = $_POST["item"];
+    $product_id = $_POST["item"];
     $quantity = $_POST["quantity"];
     $price = $_POST["price"];
     $discount = $_POST["discount"];
 
     if ($discount) {
-        $price = $price - $price*($discount/100);
+        $price = $price - $price * ($discount / 100);
     }
 
     $total_price = $price * $quantity;
 
-    // Insert into database
-   $sql="INSERT INTO sales (item_name, quantity, price, discount, total, date)
-            VALUES ('$item', $quantity, $price, $discount, $total_price, CURRENT_DATE())";
+    // get product name from DB
+    $res = mysqli_query($conn, "SELECT product_name FROM products WHERE product_id=$product_id");
+    $row = mysqli_fetch_assoc($res);
+    $item_name = $row['product_name'];
 
-    if (mysqli_query($conn, $sql)) {
-    $_SESSION["save_sales_feedback_success"] = "Successfully saved item.";
-}
-
+    $_SESSION['cart'][] = [
+        "product_id" => $product_id,
+        "item" => $item_name,
+        "quantity" => $quantity,
+        "price" => $price,
+        "discount" => $discount,
+        "total" => $total_price
+    ];
     header("Location: sales.php");
     exit();
 }
 }
 
+//add to database
+if (isset($_POST['complete'])) {
+
+    if (!empty($_SESSION['cart'])) {
+
+        // create ONE order id for grouping
+        $order_id = time();
+
+        foreach ($_SESSION['cart'] as $cartItem) {
+
+            $product_id = $cartItem["product_id"];
+            $item = $cartItem["item"];
+            $quantity = $cartItem["quantity"];
+            $price = $cartItem["price"];
+            $discount = $cartItem["discount"];
+            $total = $cartItem["total"];
+
+            $sql = "INSERT INTO sales 
+            (order_id, product_id, item_name, quantity, price, discount, total, date)
+            VALUES 
+            ('$order_id', '$product_id', '$item', '$quantity', '$price', '$discount', '$total', CURRENT_DATE())";
+            mysqli_query($conn, $sql);
+        }
+
+        $_SESSION['cart'] = [];
+
+        $_SESSION["save_sales_feedback_success"] = "Sale completed successfully.";
+    }
+
+    header("Location: sales.php");
+    exit();
+}
 
 ?>
 
@@ -62,25 +113,22 @@ session_start();
                 <form method="POST" action="sales.php">
                     Item : <select name="item" required>
                                 <?php
-                                    $productQuery = "SELECT product_name, quantity FROM products WHERE is_active=1";
+                                    $productQuery = "SELECT product_id, product_name, quantity FROM products WHERE is_active=1";
                                     $result = mysqli_query($conn, $productQuery);
 
                                     if ($result && mysqli_num_rows($result) > 0) {
                                         while ($row = mysqli_fetch_assoc($result)) {
 
-                                            $name = htmlspecialchars($row['product_name']);
-                                            $qty  = (float)$row['quantity'];
+                                                $id = $row['product_id'];
+                                                $name = htmlspecialchars($row['product_name']);
+                                                $qty  = (float)$row['quantity'];
 
-                                            if ($qty < 1) {
-                                                echo "<option value='$name' disabled>
-                                                        $name (Not available)
-                                                    </option>";
-                                            } else {
-                                                echo "<option value='$name'>
-                                                        $name
-                                                    </option>";
+                                                if ($qty < 1) {
+                                                    echo "<option value='$id' disabled>$name (Not available)</option>";
+                                                } else {
+                                                    echo "<option value='$id'>$name</option>";
+                                                }
                                             }
-                                        }
                                     } else {
                                         echo "<option disabled>No products found</option>";
                                     }
@@ -101,13 +149,34 @@ session_start();
                 Currently billed items...
 
                 <p class="receipt">
-                    <?php include("receipt_details.php");?> 
+                    <?php
+                        if (!empty($_SESSION['cart'])) {
+                            echo "<ul>";
+                            $grandTotal = 0;
+
+                            foreach ($_SESSION['cart'] as $item) {
+                                echo "<li>
+                                        {$item['item']} | Qty: {$item['quantity']} | Total: {$item['total']}
+                                    </li>";
+
+                                $grandTotal += $item['total'];
+                            }
+
+                            echo "</ul>";
+                            echo "<hr>";
+                            echo "<strong>Total: $grandTotal</strong>";
+                        } else {
+                            echo "No items in cart.";
+                        }
+                    ?>
                 </p>
 
                 <hr color="white">
                 <form action="sales.php" method="post">
                     <button type="submit" name="complete">Complete Sale</button>
-                </form>
+                    <button type="submit" name="clear_cart">Clear Cart</button>
+                </form><br>
+                
             </div>
         </div>
         
