@@ -25,6 +25,8 @@ if (isset($_GET['msg'])) {
         echo "<p style='color:green;'>Product deleted successfully</p>";
     } elseif ($_GET['msg'] == "updated") {
         echo "<p style='color:blue;'>Product updated successfully</p>";
+    } elseif ($_GET['msg'] == "added") {
+        echo "<p style='color:green;'>Product added successfully</p>";
     } else {
         echo "<p style='color:red;'>Error occurred</p>";
     }
@@ -62,7 +64,6 @@ if ($result && $result->num_rows > 0) {
 
                 <button type="submit">Delete</button><br>
             </form>
-           
         </div>
         
 <?php
