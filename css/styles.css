@@ -7,7 +7,7 @@ body{
 }
 
 .mainBody {
-    background-image: url("../images/brownCart.jpg");
+    background-image: url("../images/blueCart.jpg");
     height: 100vh;
     background-size: cover;
     background-position: center;
@@ -79,7 +79,7 @@ input, textarea, select{
 }
 
 button {
-    background-color: teal;
+    background-color: rgb(4, 83, 83);
     color: white;
     padding: 8px;
     border: none;
@@ -94,7 +94,7 @@ button:hover {
 
 .menu {
     box-sizing: border-box;
-    background: #160202d3;
+    background: rgba(0, 128, 11, 0.719);
     -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     box-shadow: 0 8px 32px 0 rgba(0,0,0,0.37 );
@@ -124,12 +124,13 @@ button:hover {
 
 .left {
     flex: 0 0 30%;
-    background: #160202d3;
+    background: rgba(0, 128, 11, 0.719);
     color: rgba(245, 245, 245, 0.904);
     padding: 20px;
     border-radius: 8px;
     height: 80%;
     margin-left: 20px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.712);
 }
 
 
@@ -177,7 +178,7 @@ a:active {
 .fieldset {
     border-radius: 8px;
     border: solid whitesmoke 3px;
-    background: linear-gradient(135deg, rgba(195, 215, 235, 0.1), rgba(255, 255, 225, 0));
+    background: linear-gradient(135deg, rgba(195, 215, 235, 0.26), rgba(255, 255, 225, 0.322));
     -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     box-shadow: 0 8px 32px 0 rgba(0,0,0,0.37 );
@@ -207,5 +208,6 @@ input, select{
 }
 
 .reportBody {
-    background-color: #160202e0;
+    /*background-color: rgba(2, 12, 3, 0.623);*/
+    background-color: black;
 }

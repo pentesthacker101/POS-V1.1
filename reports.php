@@ -67,7 +67,7 @@ while ($row = mysqli_fetch_assoc($result)) {
                     <div style="display:flex; gap:15px; flex-wrap:wrap;">
 
                         <?php foreach ($items as $item): ?>
-                            <div class="receipt" style="display:flex; gap:10px;">
+                            <div class="receipt" style="display:flex; gap:10px;font-weight:bold;">
                                 <span><?php echo htmlspecialchars($item['item_name']); ?></span>
                                 <span>MWK <?php echo number_format($item['price']); ?></span>
                                 <span>Qty: <?php echo $item['quantity']; ?></span>

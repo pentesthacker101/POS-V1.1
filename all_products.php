@@ -47,7 +47,7 @@ if ($result && $result->num_rows > 0) {
             <?php echo $i++ . ". "; ?>
             <?php echo htmlspecialchars($row["product_name"]); ?> -
             <?php echo htmlspecialchars($row["description"]); ?> -
-            Qty: <?php echo $row["quantity"]; ?>
+            Qty: <?php echo $row["quantity"]; ?> 
 
             <!-- EDIT -->
             <form action="inventory.php" method="GET" style="display:inline;">
@@ -63,7 +63,7 @@ if ($result && $result->num_rows > 0) {
                 <button type="submit">Delete</button><br>
             </form>
         </div>
-        
+        <br>
 <?php
 
 
