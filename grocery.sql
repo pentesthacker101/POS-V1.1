@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.3
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Apr 24, 2026 at 09:41 AM
--- Server version: 5.7.40
--- PHP Version: 8.0.26
+-- Generation Time: Apr 26, 2026 at 05:59 AM
+-- Server version: 8.4.7
+-- PHP Version: 8.3.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,37 +18,8 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `db`
---
-CREATE DATABASE IF NOT EXISTS `db` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `db`;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `students`
---
-
-DROP TABLE IF EXISTS `students`;
-CREATE TABLE IF NOT EXISTS `students` (
-  `Firstname` varchar(30) DEFAULT NULL,
-  `Lastname` varchar(30) NOT NULL,
-  `Email` varchar(50) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `students`
---
-
-INSERT INTO `students` (`Firstname`, `Lastname`, `Email`) VALUES
-('Pince', 'Bingalsaon', 'bingalasonprince@gmail.com'),
-('Thando', 'Hara', 'css001623@must.ac.mw'),
-('Thando', 'Hara', 'css001623@must.ac.mw');
---
 -- Database: `grocery`
 --
-CREATE DATABASE IF NOT EXISTS `grocery` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `grocery`;
 
 -- --------------------------------------------------------
 
@@ -58,20 +29,25 @@ USE `grocery`;
 
 DROP TABLE IF EXISTS `products`;
 CREATE TABLE IF NOT EXISTS `products` (
-  `product_id` int(11) NOT NULL AUTO_INCREMENT,
-  `product_name` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `quantity` int(11) NOT NULL,
+  `product_id` int NOT NULL AUTO_INCREMENT,
+  `product_name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `quantity` int NOT NULL,
+  `is_active` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`product_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`product_id`, `product_name`, `description`, `quantity`) VALUES
-(1, 'asdf', 'sd', 12),
-(2, 'dwafeg', 'afesg', 12);
+INSERT INTO `products` (`product_id`, `product_name`, `description`, `quantity`, `is_active`) VALUES
+(3, 'juice', 'health drink', 45, 1),
+(2, 'ufa', 'mgaiwa', 10, 1),
+(1, 'mpunga', 'delicious', 14, 1),
+(4, 'guava', 'fruit', 50, 0),
+(5, 'mango ', 'embe', 10, 0),
+(6, 'drink', 'carbonated', 20, 0);
 
 -- --------------------------------------------------------
 
@@ -81,35 +57,29 @@ INSERT INTO `products` (`product_id`, `product_name`, `description`, `quantity`)
 
 DROP TABLE IF EXISTS `sales`;
 CREATE TABLE IF NOT EXISTS `sales` (
-  `item_id` int(11) NOT NULL AUTO_INCREMENT,
-  `item_name` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `quantity` int(11) NOT NULL,
+  `order_id` int NOT NULL,
+  `product_id` int NOT NULL,
+  `item_name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `quantity` int NOT NULL,
   `price` float NOT NULL,
   `discount` float DEFAULT NULL,
-  `total` int(11) NOT NULL,
-  `date` date NOT NULL,
-  PRIMARY KEY (`item_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `total` int NOT NULL,
+  `date` date NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=1777160620 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `sales`
 --
 
-INSERT INTO `sales` (`item_id`, `item_name`, `quantity`, `price`, `discount`, `total`, `date`) VALUES
-(1, 'Maheu', 4, 400, 0, 1600, '2026-04-24'),
-(2, 'Maheu', 4, 400, 0, 1600, '2026-04-22'),
-(3, 'Enjoy - Orange 500 mls', 1, 600, 0, 600, '2026-04-24'),
-(4, 'Sobo - Pineapple 2L', 2, 8000, 0, 15920, '2026-04-22'),
-(5, 'Sobo - Pineapple 2L', 1, 444, 0, 444, '2026-04-24'),
-(6, 'Maheu', 1, 44, 0, 45, '2026-04-24'),
-(7, 'Maheu', 1, 555, 0, 555, '2026-04-23'),
-(8, 'Maheu', 6, 111, 0, 666, '2026-04-24'),
-(9, 'Maheu', 2, 9000, 0, 18000, '2026-04-24'),
-(10, 'Maheu', 5, 90000, 0.1, 450000, '2026-04-24'),
-(11, 'Maheu', 1, 450, 10, 450, '2026-04-24'),
-(12, 'Maheu', 2, 1980, 1, 3960, '2026-04-24'),
-(13, 'Maheu', 55, 333, 0, 18315, '2026-04-24'),
-(14, 'Maheu', 1, 111, 0, 111, '2026-04-24');
+INSERT INTO `sales` (`order_id`, `product_id`, `item_name`, `quantity`, `price`, `discount`, `total`, `date`) VALUES
+(1777180478, 2, 'ufa', 5, 200, 0, 1000, '2026-04-26'),
+(1777180447, 2, 'ufa', 2, 200, 0, 400, '2026-04-26'),
+(1777180850, 2, 'ufa', 5, 200, 0, 1000, '2026-04-26'),
+(1777180850, 1, 'mpunga', 5, 6000, 0, 30000, '2026-04-26'),
+(1777181499, 1, 'mpunga', 2, 60, 0, 120, '2026-04-26'),
+(1777181565, 3, 'juice', 22, 200, 0, 4400, '2026-04-26'),
+(1777181602, 2, 'ufa', 1, 200, 0, 200, '2026-04-26'),
+(1777182593, 2, 'ufa', 2, 5, 0, 10, '2026-04-26');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
